@@ -26,6 +26,12 @@ public class HomeActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        TextView tx = (TextView)findViewById(R.id.textview1);
+
+        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/abc.ttf");
+
+        tx.setTypeface(custom_font);
     }
 
     @Override
