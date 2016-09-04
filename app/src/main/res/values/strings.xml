@@ -2,4 +2,12 @@
     <string name="app_name">TheGossiper</string>
     <string name="action_settings">Settings</string>
     <string name="welcome">Welcome</string>
+    <string name="login">Login</string>
+    <string name="title_activity_gossip_creator">gossipCreator</string>
+    <string name="create_gossip_title">Create the gossip</string>
+    <string name="friend_source_title">Friend 1</string>
+    <string name="friend_destiny_title">Friend 2</string>
+    <string name="create_gossip_button">Create</string>
+
+
 </resources>
