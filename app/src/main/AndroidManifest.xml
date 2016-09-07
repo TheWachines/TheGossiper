@@ -8,8 +8,20 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <provider android:authorities="com.facebook.app.FacebookContentProvider282179378834699"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true" />
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
-            android:name=".HomeActivity"
+            android:name=".homeActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,12 +33,23 @@
         <activity
             android:name=".gossipCreator"
             android:label="@string/title_activity_gossip_creator"
-            android:parentActivityName=".HomeActivity"
+            android:parentActivityName=".homeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="wchines.com.thegossiper.HomeActivity" />
+                android:value=".homeActivity" />
         </activity>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+
+
+
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
 
 </manifest>
