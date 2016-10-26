@@ -9,22 +9,15 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.ProfilePictureView;
+import com.facebook.login.widget.LoginButton;
+
+import java.util.Arrays;
 
 public class homeActivity extends AppCompatActivity {
 
-    private ProfilePictureView profilePictureView;
-    private PendingAction pendingAction = PendingAction.NONE;
     private CallbackManager callbackManager;
-    private ProfileTracker profileTracker;
-
-    private enum PendingAction {
-        NONE,
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +28,13 @@ public class homeActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
 
+
+
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
+                        updateUI();
                     }
 
                     @Override
@@ -64,14 +60,10 @@ public class homeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_home);
 
-        profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                if(currentProfile != null)
-                    profileTracker.stopTracking();
-                updateUI();
-            }
-        };
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList
+                ("user_friends", "email" , "user_photos" ));
+
     }
 
     public void updateUI() {
