@@ -16,18 +16,15 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import wchines.com.thegossiper.model.facebook.FacebookFriend;
-import wchines.com.thegossiper.model.facebook.FriendList;
 
 public class gossipCreator extends AppCompatActivity {
 
@@ -78,9 +75,23 @@ public class gossipCreator extends AppCompatActivity {
         spinnerSource = (Spinner) findViewById(R.id.friendSource);
         spinnerDestiny = (Spinner) findViewById(R.id.friendDestiny);
 
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+//        spinnerSource.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if(spinnerSource.getAdapter() == null){
+//                    setFriendDropDown();
+//                }
+//            }
+//        });
+
+                LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList
                 ("user_friends", "email" , "user_photos" ));
+
+
+        if( Profile.getCurrentProfile() != null) {
+            setFriendDropDown();
+        }
 
     }
 
@@ -90,14 +101,19 @@ public class gossipCreator extends AppCompatActivity {
 
             profilePictureView.setProfileId(currentProfile.getId());
 
-            List<FacebookFriend> friendList = getFriendList();
-
-            ArrayAdapter<FacebookFriend> dataAdapter = new ArrayAdapter<FacebookFriend>(this,
-                    android.R.layout.simple_spinner_item, friendList);
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinnerSource.setAdapter(dataAdapter);
-            spinnerDestiny.setAdapter(dataAdapter);
+            setFriendDropDown();
         }
+
+    }
+
+    private void setFriendDropDown(){
+        List<FacebookFriend> friendList = getFriendList();
+
+        ArrayAdapter<FacebookFriend> dataAdapter = new ArrayAdapter<FacebookFriend>(this,
+                android.R.layout.simple_spinner_item, friendList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSource.setAdapter(dataAdapter);
+        spinnerDestiny.setAdapter(dataAdapter);
 
     }
 
@@ -109,10 +125,9 @@ public class gossipCreator extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-
     private List<FacebookFriend> getFriendList() {
 
-        final List<FacebookFriend> spinnerArray = new ArrayList<FacebookFriend>();
+        final List<FacebookFriend> spinnerList = new ArrayList<FacebookFriend>();
 
         /* make the API call */
         new GraphRequest(
@@ -134,22 +149,21 @@ public class gossipCreator extends AppCompatActivity {
                     public void onCompleted(JSONArray array, GraphResponse response) {
                         try {
                             JSONArray friendListJson = response.getJSONObject().getJSONArray("data");
-                            ObjectMapper mapper = new ObjectMapper();
-                            FriendList friendList = mapper.readValue(friendListJson.toString(), FriendList.class);
-                            spinnerArray.addAll(friendList.getFriendList());
+                            for(int i = 0 ; i< friendListJson.length() ; i++){
+                                spinnerList.add(new FacebookFriend(friendListJson.getString(i)));
+                            }
                         } catch (JSONException e) {
                             System.out.println("JSONEXCEPTION.");
-                        } catch (IOException e) {
-                            System.out.println("IOException...");
                         }
-                    }
 
-                });
+                    }
+                }
+        );
 
         request.executeAsync();
 
 
-        return spinnerArray;
+        return spinnerList;
     }
 
 

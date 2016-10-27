@@ -63,6 +63,15 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp" />
 
+            <Button
+                android:text="Next Activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_button"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/button2"
+                android:elevation="10dp"
+                android:onClick="nextActivity" />
 
 
         </RelativeLayout>

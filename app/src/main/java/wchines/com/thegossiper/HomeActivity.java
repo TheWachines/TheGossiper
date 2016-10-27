@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -64,6 +65,11 @@ public class homeActivity extends AppCompatActivity {
         loginButton.setReadPermissions(Arrays.asList
                 ("user_friends", "email" , "user_photos" ));
 
+    }
+
+
+    public void nextActivity(View view){
+        updateUI();
     }
 
     public void updateUI() {
